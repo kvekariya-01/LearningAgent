@@ -66,7 +66,8 @@ def submit_test_result():
         }
         
         # Create engagement record
-        engagement = create_engagement(type('Engagement', (), engagement_data)())
+        engagement = Engagement(**engagement_data)
+        create_engagement(engagement)
         
         # Log activity for the learner
         activity_data = log_activity(
@@ -98,26 +99,26 @@ def get_learner_score_summary_route(learner_id):
         # Fetch test results from engagements (assuming test results are stored as engagements)
         engagements = read_engagements()
         test_engagements = [
-            e for e in engagements 
-            if e.get('learner_id') == learner_id 
-            and any(test_type in e.get('engagement_type', '') for test_type in ['quiz', 'test', 'assignment', 'exam'])
+            e for e in engagements
+            if e.learner_id == learner_id
+            and any(test_type in e.engagement_type for test_type in ['quiz', 'test', 'assignment', 'exam'])
         ]
-        
+
         # Convert engagements to TestResult objects
         test_results = []
         for engagement in test_engagements:
             try:
                 test_result = TestResult(
-                    learner_id=engagement['learner_id'],
-                    test_id=engagement.get('metadata', {}).get('test_id', engagement['content_id']),
-                    test_type=engagement.get('engagement_type', 'test').replace('_attempt', ''),
-                    course_id=engagement['course_id'],
-                    content_id=engagement['content_id'],
-                    score=engagement.get('score', 0),
-                    max_score=engagement.get('metadata', {}).get('max_score', 100),
-                    time_taken=engagement.get('duration'),
-                    attempts=engagement.get('metadata', {}).get('attempts', 1),
-                    completed_at=engagement['timestamp']
+                    learner_id=engagement.learner_id,
+                    test_id=engagement.metadata.get('test_id', engagement.content_id),
+                    test_type=engagement.engagement_type.replace('_attempt', ''),
+                    course_id=engagement.course_id,
+                    content_id=engagement.content_id,
+                    score=engagement.score or 0,
+                    max_score=engagement.metadata.get('max_score', 100),
+                    time_taken=engagement.duration,
+                    attempts=engagement.metadata.get('attempts', 1),
+                    completed_at=engagement.timestamp
                 )
                 test_results.append(test_result)
             except Exception as e:
@@ -171,25 +172,25 @@ def get_learning_path_route(learner_id):
         # Get current score summary
         engagements = read_engagements()
         test_engagements = [
-            e for e in engagements 
-            if e.get('learner_id') == learner_id 
-            and any(test_type in e.get('engagement_type', '') for test_type in ['quiz', 'test', 'assignment', 'exam'])
+            e for e in engagements
+            if e.learner_id == learner_id
+            and any(test_type in e.engagement_type for test_type in ['quiz', 'test', 'assignment', 'exam'])
         ]
-        
+
         test_results = []
         for engagement in test_engagements:
             try:
                 test_result = TestResult(
-                    learner_id=engagement['learner_id'],
-                    test_id=engagement.get('metadata', {}).get('test_id', engagement['content_id']),
-                    test_type=engagement.get('engagement_type', 'test').replace('_attempt', ''),
-                    course_id=engagement['course_id'],
-                    content_id=engagement['content_id'],
-                    score=engagement.get('score', 0),
-                    max_score=engagement.get('metadata', {}).get('max_score', 100),
-                    time_taken=engagement.get('duration'),
-                    attempts=engagement.get('metadata', {}).get('attempts', 1),
-                    completed_at=engagement['timestamp']
+                    learner_id=engagement.learner_id,
+                    test_id=engagement.metadata.get('test_id', engagement.content_id),
+                    test_type=engagement.engagement_type.replace('_attempt', ''),
+                    course_id=engagement.course_id,
+                    content_id=engagement.content_id,
+                    score=engagement.score or 0,
+                    max_score=engagement.metadata.get('max_score', 100),
+                    time_taken=engagement.duration,
+                    attempts=engagement.metadata.get('attempts', 1),
+                    completed_at=engagement.timestamp
                 )
                 test_results.append(test_result)
             except Exception:
@@ -235,25 +236,25 @@ def batch_update_scores():
                 # Generate score summary for each learner
                 engagements = read_engagements()
                 test_engagements = [
-                    e for e in engagements 
-                    if e.get('learner_id') == learner_id 
-                    and any(test_type in e.get('engagement_type', '') for test_type in ['quiz', 'test', 'assignment', 'exam'])
+                    e for e in engagements
+                    if e.learner_id == learner_id
+                    and any(test_type in e.engagement_type for test_type in ['quiz', 'test', 'assignment', 'exam'])
                 ]
-                
+
                 test_results = []
                 for engagement in test_engagements:
                     try:
                         test_result = TestResult(
-                            learner_id=engagement['learner_id'],
-                            test_id=engagement.get('metadata', {}).get('test_id', engagement['content_id']),
-                            test_type=engagement.get('engagement_type', 'test').replace('_attempt', ''),
-                            course_id=engagement['course_id'],
-                            content_id=engagement['content_id'],
-                            score=engagement.get('score', 0),
-                            max_score=engagement.get('metadata', {}).get('max_score', 100),
-                            time_taken=engagement.get('duration'),
-                            attempts=engagement.get('metadata', {}).get('attempts', 1),
-                            completed_at=engagement['timestamp']
+                            learner_id=engagement.learner_id,
+                            test_id=engagement.metadata.get('test_id', engagement.content_id),
+                            test_type=engagement.engagement_type.replace('_attempt', ''),
+                            course_id=engagement.course_id,
+                            content_id=engagement.content_id,
+                            score=engagement.score or 0,
+                            max_score=engagement.metadata.get('max_score', 100),
+                            time_taken=engagement.duration,
+                            attempts=engagement.metadata.get('attempts', 1),
+                            completed_at=engagement.timestamp
                         )
                         test_results.append(test_result)
                     except Exception:

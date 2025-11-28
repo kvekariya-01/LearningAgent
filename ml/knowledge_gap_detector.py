@@ -45,7 +45,7 @@ class KnowledgeGapDetector:
             
             activities = learner_data.get("activities", [])
             engagements = read_engagements()
-            learner_engagements = [e for e in engagements if e.get("learner_id") == learner_id]
+            learner_engagements = [e for e in engagements if e.learner_id == learner_id]
             
             if not activities:
                 return self._get_initial_gap_assessment(learner_id)

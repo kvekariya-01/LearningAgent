@@ -1561,28 +1561,28 @@ elif page == "📈 View Engagements":
                 
                 # Display engagements
                 for i, engagement in enumerate(engagements):
-                    engagement_id = str(engagement.get('_id', engagement.get('id', 'N/A')))[:8]
-                    
+                    engagement_id = str(engagement.id)[:8]
+
                     with st.expander(f"📊 Engagement Record (ID: {engagement_id}...)", expanded=(i == 0)):
                         col1, col2 = st.columns(2)
-                        
+
                         with col1:
                             st.write("**Engagement Details:**")
-                            st.write(f"• **Learner ID**: {engagement.get('learner_id', 'N/A')}")
-                            st.write(f"• **Content ID**: {engagement.get('content_id', 'N/A')}")
-                            st.write(f"• **Type**: {engagement.get('engagement_type', 'N/A').replace('_', ' ').title()}")
+                            st.write(f"• **Learner ID**: {engagement.learner_id}")
+                            st.write(f"• **Content ID**: {engagement.content_id}")
+                            st.write(f"• **Type**: {engagement.engagement_type.replace('_', ' ').title()}")
                             st.write(f"• **Database ID**: {engagement_id}")
-                        
+
                         with col2:
                             st.write("**Performance Metrics:**")
-                            st.write(f"• **Duration**: {engagement.get('duration', 'N/A')} minutes")
-                            st.write(f"• **Score**: {engagement.get('score', 'N/A')}")
-                            st.write(f"• **Timestamp**: {engagement.get('timestamp', 'N/A')}")
-                        
+                            st.write(f"• **Duration**: {engagement.duration or 'N/A'} minutes")
+                            st.write(f"• **Score**: {engagement.score or 'N/A'}")
+                            st.write(f"• **Timestamp**: {engagement.timestamp}")
+
                         # Display feedback
-                        if engagement.get('feedback'):
+                        if engagement.feedback:
                             st.write("**Feedback:**")
-                            st.write(f'"{engagement.get("feedback")}"')
+                            st.write(f'"{engagement.feedback}"')
             else:
                 st.info("No engagements found in the database. Go to the 'Register Engagement' page to add your first engagement record!")
                 
@@ -2506,26 +2506,26 @@ elif page == "📊 Score Analytics":
                     # Get test results from engagements
                     engagements = read_engagements()
                     test_engagements = [
-                        e for e in engagements 
-                        if e.get('learner_id') == str(learner_id) 
-                        and any(test_type in e.get('engagement_type', '') for test_type in ['quiz', 'test', 'assignment', 'exam'])
+                        e for e in engagements
+                        if e.learner_id == str(learner_id)
+                        and any(test_type in e.engagement_type for test_type in ['quiz', 'test', 'assignment', 'exam'])
                     ]
-                    
+
                     # Convert engagements to TestResult objects
                     test_results = []
                     for engagement in test_engagements:
                         try:
                             test_result = TestResult(
                                 learner_id=str(learner_id),
-                                test_id=engagement.get('metadata', {}).get('test_id', engagement['content_id']),
-                                test_type=engagement.get('engagement_type', 'test').replace('_attempt', ''),
-                                course_id=engagement['course_id'],
-                                content_id=engagement['content_id'],
-                                score=engagement.get('score', 0),
-                                max_score=engagement.get('metadata', {}).get('max_score', 100),
-                                time_taken=engagement.get('duration'),
-                                attempts=engagement.get('metadata', {}).get('attempts', 1),
-                                completed_at=engagement['timestamp']
+                                test_id=engagement.metadata.get('test_id', engagement.content_id),
+                                test_type=engagement.engagement_type.replace('_attempt', ''),
+                                course_id=engagement.course_id,
+                                content_id=engagement.content_id,
+                                score=engagement.score or 0,
+                                max_score=engagement.metadata.get('max_score', 100),
+                                time_taken=engagement.duration,
+                                attempts=engagement.metadata.get('attempts', 1),
+                                completed_at=engagement.timestamp
                             )
                             test_results.append(test_result)
                         except Exception:
@@ -2636,11 +2636,11 @@ elif page == "🎯 Score-Based Recommendations":
                     # Get test results
                     engagements = read_engagements()
                     test_engagements = [
-                        e for e in engagements 
-                        if e.get('learner_id') == str(learner_id) 
-                        and any(test_type in e.get('engagement_type', '') for test_type in ['quiz', 'test', 'assignment', 'exam'])
+                        e for e in engagements
+                        if e.learner_id == str(learner_id)
+                        and any(test_type in e.engagement_type for test_type in ['quiz', 'test', 'assignment', 'exam'])
                     ]
-                    
+
                     # Convert to TestResult objects
                     test_results = []
                     for engagement in test_engagements:
@@ -2648,15 +2648,15 @@ elif page == "🎯 Score-Based Recommendations":
                             from models.test_result import TestResult
                             test_result = TestResult(
                                 learner_id=str(learner_id),
-                                test_id=engagement.get('metadata', {}).get('test_id', engagement['content_id']),
-                                test_type=engagement.get('engagement_type', 'test').replace('_attempt', ''),
-                                course_id=engagement['course_id'],
-                                content_id=engagement['content_id'],
-                                score=engagement.get('score', 0),
-                                max_score=engagement.get('metadata', {}).get('max_score', 100),
-                                time_taken=engagement.get('duration'),
-                                attempts=engagement.get('metadata', {}).get('attempts', 1),
-                                completed_at=engagement['timestamp']
+                                test_id=engagement.metadata.get('test_id', engagement.content_id),
+                                test_type=engagement.engagement_type.replace('_attempt', ''),
+                                course_id=engagement.course_id,
+                                content_id=engagement.content_id,
+                                score=engagement.score or 0,
+                                max_score=engagement.metadata.get('max_score', 100),
+                                time_taken=engagement.duration,
+                                attempts=engagement.metadata.get('attempts', 1),
+                                completed_at=engagement.timestamp
                             )
                             test_results.append(test_result)
                         except Exception:
@@ -2793,11 +2793,11 @@ elif page == "🛤️ Learning Paths":
                     # Get test results
                     engagements = read_engagements()
                     test_engagements = [
-                        e for e in engagements 
-                        if e.get('learner_id') == str(learner_id) 
-                        and any(test_type in e.get('engagement_type', '') for test_type in ['quiz', 'test', 'assignment', 'exam'])
+                        e for e in engagements
+                        if e.learner_id == str(learner_id)
+                        and any(test_type in e.engagement_type for test_type in ['quiz', 'test', 'assignment', 'exam'])
                     ]
-                    
+
                     # Convert to TestResult objects
                     test_results = []
                     for engagement in test_engagements:
@@ -2805,15 +2805,15 @@ elif page == "🛤️ Learning Paths":
                             from models.test_result import TestResult
                             test_result = TestResult(
                                 learner_id=str(learner_id),
-                                test_id=engagement.get('metadata', {}).get('test_id', engagement['content_id']),
-                                test_type=engagement.get('engagement_type', 'test').replace('_attempt', ''),
-                                course_id=engagement['course_id'],
-                                content_id=engagement['content_id'],
-                                score=engagement.get('score', 0),
-                                max_score=engagement.get('metadata', {}).get('max_score', 100),
-                                time_taken=engagement.get('duration'),
-                                attempts=engagement.get('metadata', {}).get('attempts', 1),
-                                completed_at=engagement['timestamp']
+                                test_id=engagement.metadata.get('test_id', engagement.content_id),
+                                test_type=engagement.engagement_type.replace('_attempt', ''),
+                                course_id=engagement.course_id,
+                                content_id=engagement.content_id,
+                                score=engagement.score or 0,
+                                max_score=engagement.metadata.get('max_score', 100),
+                                time_taken=engagement.duration,
+                                attempts=engagement.metadata.get('attempts', 1),
+                                completed_at=engagement.timestamp
                             )
                             test_results.append(test_result)
                         except Exception:
@@ -3017,19 +3017,19 @@ elif page == "📝 Submit Test Results":
                         from utils.crud_operations import read_engagements
                         engagements = read_engagements()
                         learner_engagements = [
-                            e for e in engagements 
-                            if e.get('learner_id') == str(learner_id) 
-                            and any(test_type in e.get('engagement_type', '') for test_type in ['quiz', 'test', 'assignment', 'exam'])
+                            e for e in engagements
+                            if e.learner_id == str(learner_id)
+                            and any(test_type in e.engagement_type for test_type in ['quiz', 'test', 'assignment', 'exam'])
                         ]
-                        
+
                         if learner_engagements:
                             # Show recent 5 test results
-                            recent_tests = sorted(learner_engagements, key=lambda x: x.get('timestamp', ''), reverse=True)[:5]
-                            
+                            recent_tests = sorted(learner_engagements, key=lambda x: x.timestamp, reverse=True)[:5]
+
                             for engagement in recent_tests:
-                                test_type_display = engagement.get('engagement_type', 'unknown').replace('_attempt', '').title()
-                                score = engagement.get('score', 0)
-                                st.write(f"• **{test_type_display}** in {engagement.get('course_id', 'Unknown Course')}: {score:.1f}%")
+                                test_type_display = engagement.engagement_type.replace('_attempt', '').title()
+                                score = engagement.score or 0
+                                st.write(f"• **{test_type_display}** in {engagement.course_id}: {score:.1f}%")
                         else:
                             st.info("No test results found for this learner yet.")
                     except Exception as e:
