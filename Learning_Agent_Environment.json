@@ -1,0 +1,52 @@
+{
+	"id": "learning-agent-env",
+	"name": "Learning Agent MongoDB Atlas Environment",
+	"values": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:5000",
+			"type": "text",
+			"enabled": true
+		},
+		{
+			"key": "learner_id",
+			"value": "",
+			"type": "text",
+			"enabled": true,
+			"description": "Learner ID - will be set after registration"
+		},
+		{
+			"key": "learner_name",
+			"value": "John Doe",
+			"type": "text",
+			"enabled": true
+		},
+		{
+			"key": "learner_age",
+			"value": "25",
+			"type": "text",
+			"enabled": true
+		},
+		{
+			"key": "learner_gender",
+			"value": "male",
+			"type": "text",
+			"enabled": true
+		},
+		{
+			"key": "learning_style",
+			"value": "visual",
+			"type": "text",
+			"enabled": true
+		},
+		{
+			"key": "preferences",
+			"value": "[\"videos\", \"quizzes\", \"discussions\"]",
+			"type": "text",
+			"enabled": true
+		}
+	],
+	"_postman_variable_scope": "environment",
+	"_postman_exported_at": "2025-11-17T13:02:00.000Z",
+	"_postman_exported_using": "Learning Agent API Collection v1.0"
+}

@@ -1,0 +1,33 @@
+# Updated Hugging Face Spaces Configuration
+title: Learning Agent API
+sdk: docker
+sdk_version: "3.8.1"
+app_port: 5000
+
+# Docker configuration
+dockerfile: Dockerfile
+
+# Optional: License and description
+license: mit
+description: A Flask-based Learning Management System API with machine learning recommendations and adaptive learning features.
+
+# Environment variables
+env:
+  - USE_IN_MEMORY_DB: true
+  - PORT: 5000
+  - PYTHONPATH: /app
+
+# Hardware requirements
+hardware: cpu-small
+
+# Tags for discovery
+tags:
+  - flask
+  - api
+  - machine-learning
+  - education
+  - learning-management-system
+
+# Volume configuration (optional)
+# volumes:
+#   - "./data:/app/data"

@@ -1,0 +1,1082 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learning Agent - Score Dashboard</title>
+    
+    <!-- External Libraries -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.css" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-color: #4f46e5;
+            --primary-dark: #3730a3;
+            --secondary-color: #06b6d4;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --danger-color: #ef4444;
+            --gray-50: #f9fafb;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-300: #d1d5db;
+            --gray-400: #9ca3af;
+            --gray-500: #6b7280;
+            --gray-600: #4b5563;
+            --gray-700: #374151;
+            --gray-800: #1f2937;
+            --gray-900: #111827;
+            --white: #ffffff;
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: var(--gray-900);
+        }
+
+        /* Navigation */
+        .navbar {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--gray-200);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .nav-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: var(--gray-600);
+            font-weight: 500;
+            transition: color 0.3s ease;
+            cursor: pointer;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            color: var(--primary-color);
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Header Section */
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--white);
+            margin-bottom: 1rem;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.9);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Dashboard Grid */
+        .dashboard {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+        }
+
+        /* Cards */
+        .card {
+            background: var(--white);
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: var(--shadow-xl);
+            border: 1px solid var(--gray-200);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--gray-100);
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--gray-800);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .card-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            color: var(--white);
+        }
+
+        .icon-primary { background: linear-gradient(135deg, var(--primary-color), var(--primary-dark)); }
+        .icon-success { background: linear-gradient(135deg, var(--success-color), #059669); }
+        .icon-warning { background: linear-gradient(135deg, var(--warning-color), #d97706); }
+        .icon-info { background: linear-gradient(135deg, var(--secondary-color), #0891b2); }
+
+        /* Learner Selector */
+        .learner-selector {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .learner-button {
+            padding: 0.75rem 1.5rem;
+            border: 2px solid var(--gray-300);
+            border-radius: 12px;
+            background: var(--white);
+            color: var(--gray-700);
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .learner-button:hover {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        .learner-button.active {
+            background: var(--primary-color);
+            border-color: var(--primary-color);
+            color: var(--white);
+        }
+
+        /* Score Display */
+        .score-display {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .score-card {
+            text-align: center;
+            padding: 1.5rem;
+            border-radius: 12px;
+            background: linear-gradient(135deg, var(--gray-50), var(--white));
+            border: 1px solid var(--gray-200);
+        }
+
+        .score-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .score-label {
+            font-size: 0.875rem;
+            color: var(--gray-600);
+            font-weight: 500;
+        }
+
+        .score-trend {
+            font-size: 0.75rem;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            margin-top: 0.5rem;
+            display: inline-block;
+        }
+
+        .trend-improving { background: rgba(16, 185, 129, 0.1); color: var(--success-color); }
+        .trend-stable { background: rgba(59, 130, 246, 0.1); color: #3b82f6; }
+        .trend-declining { background: rgba(239, 68, 68, 0.1); color: var(--danger-color); }
+
+        /* Progress Bars */
+        .progress-section {
+            margin: 1.5rem 0;
+        }
+
+        .progress-item {
+            margin-bottom: 1.5rem;
+        }
+
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--gray-700);
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: var(--gray-200);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            border-radius: 4px;
+            transition: width 0.8s ease;
+        }
+
+        .progress-excellent { background: linear-gradient(90deg, var(--success-color), #34d399); }
+        .progress-good { background: linear-gradient(90deg, #3b82f6, #60a5fa); }
+        .progress-satisfactory { background: linear-gradient(90deg, var(--warning-color), #fbbf24); }
+        .progress-needs-improvement { background: linear-gradient(90deg, var(--danger-color), #f87171); }
+
+        /* Recommendations Grid */
+        .recommendations-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .recommendation-card {
+            border: 1px solid var(--gray-200);
+            border-radius: 12px;
+            padding: 1.5rem;
+            background: linear-gradient(135deg, var(--white), var(--gray-50));
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .recommendation-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+        }
+
+        .recommendation-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .recommendation-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+
+        .recommendation-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--gray-800);
+            line-height: 1.4;
+        }
+
+        .match-score {
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            color: var(--white);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+
+        .recommendation-meta {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.875rem;
+            color: var(--gray-600);
+        }
+
+        .difficulty-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 16px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.025em;
+        }
+
+        .difficulty-beginner { background: rgba(16, 185, 129, 0.1); color: var(--success-color); }
+        .difficulty-intermediate { background: rgba(59, 130, 246, 0.1); color: #3b82f6; }
+        .difficulty-advanced { background: rgba(139, 92, 246, 0.1); color: #8b5cf6; }
+
+        .recommendation-reason {
+            color: var(--gray-600);
+            font-size: 0.875rem;
+            line-height: 1.5;
+            margin-bottom: 1rem;
+        }
+
+        .recommendation-actions {
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 500;
+            text-decoration: none;
+            text-align: center;
+            cursor: pointer;
+            border: none;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.875rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            color: var(--white);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn-secondary {
+            background: var(--gray-100);
+            color: var(--gray-700);
+            border: 1px solid var(--gray-300);
+        }
+
+        .btn-secondary:hover {
+            background: var(--gray-200);
+        }
+
+        /* Learning Path */
+        .learning-path {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .path-step {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background: var(--white);
+            border-radius: 12px;
+            border: 1px solid var(--gray-200);
+            transition: all 0.3s ease;
+        }
+
+        .path-step:hover {
+            background: var(--gray-50);
+        }
+
+        .step-number {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            color: var(--white);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            flex-shrink: 0;
+        }
+
+        .step-content {
+            flex: 1;
+        }
+
+        .step-title {
+            font-weight: 600;
+            color: var(--gray-800);
+            margin-bottom: 0.25rem;
+        }
+
+        .step-meta {
+            font-size: 0.875rem;
+            color: var(--gray-600);
+        }
+
+        /* Loading States */
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 3rem;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid var(--gray-200);
+            border-left-color: var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Animations */
+        .fade-in {
+            animation: fadeIn 0.6s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .slide-in {
+            animation: slideIn 0.6s ease forwards;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .score-display {
+                grid-template-columns: 1fr;
+            }
+
+            .recommendations-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .learner-selector {
+                flex-direction: column;
+            }
+        }
+
+        /* Charts Container */
+        .chart-container {
+            position: relative;
+            height: 300px;
+            margin: 1.5rem 0;
+        }
+
+        /* Hidden by default */
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-content">
+            <div class="logo">
+                <i class="fas fa-graduation-cap"></i>
+                Learning Agent
+            </div>
+            <ul class="nav-links">
+                <li><a class="nav-link active" data-section="overview">Overview</a></li>
+                <li><a class="nav-link" data-section="recommendations">Recommendations</a></li>
+                <li><a class="nav-link" data-section="learning-path">Learning Path</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>Score Dashboard</h1>
+            <p>Personalized learning recommendations based on your test performance and progress</p>
+        </div>
+
+        <!-- Dashboard Content -->
+        <div class="dashboard">
+            <!-- Learner Selection -->
+            <div class="card fade-in">
+                <div class="card-header">
+                    <h2 class="card-title">
+                        <div class="card-icon icon-info">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        Select Learner
+                    </h2>
+                </div>
+                <div class="learner-selector">
+                    <button class="learner-button active" data-learner="demo-alice-123">Alice Johnson</button>
+                    <button class="learner-button" data-learner="demo-bob-456">Bob Smith</button>
+                    <button class="learner-button" data-learner="demo-carol-789">Carol Davis</button>
+                </div>
+            </div>
+
+            <!-- Score Overview -->
+            <div class="card fade-in" id="score-overview">
+                <div class="card-header">
+                    <h2 class="card-title">
+                        <div class="card-icon icon-primary">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        Performance Overview
+                    </h2>
+                </div>
+                <div class="score-display">
+                    <div class="score-card">
+                        <div class="score-value" id="average-score">--</div>
+                        <div class="score-label">Average Score</div>
+                        <div class="score-trend" id="score-trend">--</div>
+                    </div>
+                    <div class="score-card">
+                        <div class="score-value" id="confidence-score">--</div>
+                        <div class="score-label">Confidence</div>
+                        <div class="score-trend trend-stable">Consistency</div>
+                    </div>
+                    <div class="score-card">
+                        <div class="score-value" id="recommendation-level">--</div>
+                        <div class="score-label">Level</div>
+                        <div class="score-trend trend-improving">Target</div>
+                    </div>
+                    <div class="score-card">
+                        <div class="score-value" id="total-tests">--</div>
+                        <div class="score-label">Total Tests</div>
+                        <div class="score-trend trend-stable">Completed</div>
+                    </div>
+                </div>
+                <div class="progress-section">
+                    <div class="progress-item">
+                        <div class="progress-label">
+                            <span>Strongest Subject</span>
+                            <span id="strongest-subject">--</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill progress-excellent" style="width: 0%" id="strongest-progress"></div>
+                        </div>
+                    </div>
+                    <div class="progress-item">
+                        <div class="progress-label">
+                            <span>Weakest Subject</span>
+                            <span id="weakest-subject">--</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill progress-satisfactory" style="width: 0%" id="weakest-progress"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recommendations Section -->
+            <div class="card fade-in" id="recommendations-section">
+                <div class="card-header">
+                    <h2 class="card-title">
+                        <div class="card-icon icon-success">
+                            <i class="fas fa-lightbulb"></i>
+                        </div>
+                        Personalized Recommendations
+                    </h2>
+                </div>
+                <div id="recommendations-content">
+                    <div class="loading">
+                        <div class="spinner"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Learning Path Section -->
+            <div class="card fade-in" id="learning-path-section">
+                <div class="card-header">
+                    <h2 class="card-title">
+                        <div class="card-icon icon-warning">
+                            <i class="fas fa-route"></i>
+                        </div>
+                        Learning Path
+                    </h2>
+                </div>
+                <div id="learning-path-content">
+                    <div class="loading">
+                        <div class="spinner"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+    <script>
+        // Global variables
+        let currentLearner = 'demo-alice-123';
+        let currentSection = 'overview';
+
+        // API base URL
+        const API_BASE = 'http://localhost:5000/api';
+
+        // Initialize dashboard
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeEventListeners();
+            loadLearnerData(currentLearner);
+        });
+
+        // Event Listeners
+        function initializeEventListeners() {
+            // Learner selector buttons
+            document.querySelectorAll('.learner-button').forEach(button => {
+                button.addEventListener('click', function() {
+                    const learnerId = this.dataset.learner;
+                    selectLearner(learnerId);
+                });
+            });
+
+            // Navigation links
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.addEventListener('click', function() {
+                    const section = this.dataset.section;
+                    navigateToSection(section);
+                });
+            });
+        }
+
+        // Learner selection
+        function selectLearner(learnerId) {
+            currentLearner = learnerId;
+            
+            // Update active button
+            document.querySelectorAll('.learner-button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.querySelector(`[data-learner="${learnerId}"]`).classList.add('active');
+
+            // Load data for new learner
+            loadLearnerData(learnerId);
+        }
+
+        // Navigation
+        function navigateToSection(section) {
+            currentSection = section;
+            
+            // Update active nav link
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+            });
+            document.querySelector(`[data-section="${section}"]`).classList.add('active');
+
+            // Show/hide sections
+            const sections = ['score-overview', 'recommendations-section', 'learning-path-section'];
+            sections.forEach(id => {
+                const element = document.getElementById(id);
+                if (section === 'overview' && id === 'score-overview') {
+                    element.classList.remove('hidden');
+                } else if (section === 'recommendations' && id === 'recommendations-section') {
+                    element.classList.remove('hidden');
+                } else if (section === 'learning-path' && id === 'learning-path-section') {
+                    element.classList.remove('hidden');
+                } else {
+                    element.classList.add('hidden');
+                }
+            });
+        }
+
+        // Load learner data
+        async function loadLearnerData(learnerId) {
+            try {
+                // Load score summary
+                await loadScoreSummary(learnerId);
+                
+                // Load recommendations
+                await loadRecommendations(learnerId);
+                
+                // Load learning path
+                await loadLearningPath(learnerId);
+                
+            } catch (error) {
+                console.error('Error loading learner data:', error);
+                showErrorMessage('Failed to load learner data. Please check if the API server is running.');
+            }
+        }
+
+        // Load score summary
+        async function loadScoreSummary(learnerId) {
+            try {
+                const response = await fetch(`${API_BASE}/scoring/learner/${learnerId}/score-summary`);
+                const data = await response.json();
+                
+                if (data.success) {
+                    updateScoreDisplay(data.score_summary);
+                }
+            } catch (error) {
+                console.error('Error loading score summary:', error);
+                // Use demo data as fallback
+                updateScoreDisplay(getDemoScoreData(learnerId));
+            }
+        }
+
+        // Update score display
+        function updateScoreDisplay(scoreSummary) {
+            document.getElementById('average-score').textContent = scoreSummary.average_score.toFixed(1) + '%';
+            document.getElementById('confidence-score').textContent = scoreSummary.confidence_score.toFixed(1) + '%';
+            document.getElementById('recommendation-level').textContent = scoreSummary.recommendation_level;
+            document.getElementById('total-tests').textContent = scoreSummary.total_tests;
+            
+            // Update trend
+            const trendElement = document.getElementById('score-trend');
+            trendElement.textContent = scoreSummary.score_trend;
+            trendElement.className = `score-trend trend-${scoreSummary.score_trend}`;
+            
+            // Update subjects
+            document.getElementById('strongest-subject').textContent = scoreSummary.strongest_subject;
+            document.getElementById('weakest-subject').textContent = scoreSummary.weakest_subject;
+            
+            // Animate progress bars
+            setTimeout(() => {
+                document.getElementById('strongest-progress').style.width = scoreSummary.average_score + '%';
+                document.getElementById('weakest-progress').style.width = (scoreSummary.average_score - 20) + '%';
+            }, 300);
+        }
+
+        // Load recommendations
+        async function loadRecommendations(learnerId) {
+            try {
+                const response = await fetch(`${API_BASE}/scoring/learner/${learnerId}/recommendations`);
+                const data = await response.json();
+                
+                if (data.success) {
+                    updateRecommendations(data.recommendations.recommendations);
+                }
+            } catch (error) {
+                console.error('Error loading recommendations:', error);
+                updateRecommendations(getDemoRecommendations(learnerId));
+            }
+        }
+
+        // Update recommendations
+        function updateRecommendations(recommendations) {
+            const container = document.getElementById('recommendations-content');
+            
+            if (!recommendations || recommendations.length === 0) {
+                container.innerHTML = `
+                    <div style="text-align: center; padding: 2rem; color: var(--gray-500);">
+                        <i class="fas fa-info-circle" style="font-size: 2rem; margin-bottom: 1rem; display: block;"></i>
+                        No recommendations available yet. Complete some tests to get personalized suggestions!
+                    </div>
+                `;
+                return;
+            }
+
+            const recommendationsHTML = recommendations.map((rec, index) => `
+                <div class="recommendation-card slide-in" style="animation-delay: ${index * 0.1}s">
+                    <div class="recommendation-header">
+                        <h3 class="recommendation-title">${rec.title}</h3>
+                        <div class="match-score">${rec.match_score.toFixed(1)}% Match</div>
+                    </div>
+                    
+                    <div class="recommendation-meta">
+                        <div class="meta-item">
+                            <i class="fas fa-layer-group"></i>
+                            <span class="difficulty-badge difficulty-${rec.difficulty_level}">${rec.difficulty_level}</span>
+                        </div>
+                        <div class="meta-item">
+                            <i class="fas fa-clock"></i>
+                            <span>${rec.estimated_completion_time}</span>
+                        </div>
+                        <div class="meta-item">
+                            <i class="fas fa-chart-line"></i>
+                            <span>${rec.confidence.toFixed(0)}% Confidence</span>
+                        </div>
+                    </div>
+                    
+                    <p class="recommendation-reason">${rec.recommendation_reason}</p>
+                    
+                    <div class="recommendation-actions">
+                        <button class="btn btn-primary" onclick="startCourse('${rec.course_id}')">
+                            <i class="fas fa-play"></i>
+                            Start Learning
+                        </button>
+                        <button class="btn btn-secondary" onclick="viewDetails('${rec.course_id}')">
+                            <i class="fas fa-info-circle"></i>
+                            Details
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+            
+            container.innerHTML = `<div class="recommendations-grid">${recommendationsHTML}</div>`;
+        }
+
+        // Load learning path
+        async function loadLearningPath(learnerId) {
+            try {
+                const response = await fetch(`${API_BASE}/scoring/learner/${learnerId}/learning-path`);
+                const data = await response.json();
+                
+                if (data.success) {
+                    updateLearningPath(data.learning_path, data.current_performance);
+                }
+            } catch (error) {
+                console.error('Error loading learning path:', error);
+                updateLearningPath(getDemoLearningPath(learnerId), {
+                    level: 'intermediate',
+                    confidence: 75,
+                    trend: 'improving'
+                });
+            }
+        }
+
+        // Update learning path
+        function updateLearningPath(learningPath, performance) {
+            const container = document.getElementById('learning-path-content');
+            
+            if (!learningPath || !learningPath.learning_path || learningPath.learning_path.length === 0) {
+                container.innerHTML = `
+                    <div style="text-align: center; padding: 2rem; color: var(--gray-500);">
+                        <i class="fas fa-route" style="font-size: 2rem; margin-bottom: 1rem; display: block;"></i>
+                        No learning path available. Complete some tests to get a personalized learning journey!
+                    </div>
+                `;
+                return;
+            }
+
+            const pathHTML = `
+                <div style="margin-bottom: 2rem; padding: 1.5rem; background: linear-gradient(135deg, var(--gray-50), var(--white)); border-radius: 12px; border: 1px solid var(--gray-200);">
+                    <h3 style="color: var(--gray-800); margin-bottom: 0.5rem;">${learningPath.path_summary}</h3>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; margin-top: 1rem;">
+                        <div style="text-align: center;">
+                            <div style="font-size: 1.5rem; font-weight: 600; color: var(--primary-color);">${learningPath.estimated_duration}</div>
+                            <div style="font-size: 0.875rem; color: var(--gray-600);">Duration</div>
+                        </div>
+                        <div style="text-align: center;">
+                            <div style="font-size: 1.5rem; font-weight: 600; color: var(--success-color);">${learningPath.learning_path.length}</div>
+                            <div style="font-size: 0.875rem; color: var(--gray-600);">Courses</div>
+                        </div>
+                        <div style="text-align: center;">
+                            <div style="font-size: 1.5rem; font-weight: 600; color: var(--warning-color);">${learningPath.skill_coverage.length}</div>
+                            <div style="font-size: 0.875rem; color: var(--gray-600);">Skills</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="learning-path">
+                    ${learningPath.learning_path.map((step, index) => `
+                        <div class="path-step slide-in" style="animation-delay: ${index * 0.1}s">
+                            <div class="step-number">${step.sequence}</div>
+                            <div class="step-content">
+                                <div class="step-title">${step.title}</div>
+                                <div class="step-meta">
+                                    ${step.difficulty} • ${step.estimated_time} • ${step.match_confidence.toFixed(0)}% match
+                                </div>
+                            </div>
+                            <button class="btn btn-secondary" onclick="viewStep('${step.course_id}')">
+                                <i class="fas fa-arrow-right"></i>
+                            </button>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+            
+            container.innerHTML = pathHTML;
+        }
+
+        // Demo data functions
+        function getDemoScoreData(learnerId) {
+            const demoData = {
+                'demo-alice-123': {
+                    average_score: 88.5,
+                    confidence_score: 82.3,
+                    recommendation_level: 'advanced',
+                    total_tests: 5,
+                    score_trend: 'improving',
+                    strongest_subject: 'python-101',
+                    weakest_subject: 'data-science-intro'
+                },
+                'demo-bob-456': {
+                    average_score: 76.2,
+                    confidence_score: 68.9,
+                    recommendation_level: 'intermediate',
+                    total_tests: 3,
+                    score_trend: 'stable',
+                    strongest_subject: 'web-dev-js',
+                    weakest_subject: 'react-basics'
+                },
+                'demo-carol-789': {
+                    average_score: 92.1,
+                    confidence_score: 91.7,
+                    recommendation_level: 'advanced',
+                    total_tests: 2,
+                    score_trend: 'improving',
+                    strongest_subject: 'design-fundamentals',
+                    weakest_subject: 'ux-principles'
+                }
+            };
+            return demoData[learnerId] || demoData['demo-alice-123'];
+        }
+
+        function getDemoRecommendations(learnerId) {
+            return [
+                {
+                    title: 'Advanced Python Programming',
+                    difficulty_level: 'advanced',
+                    match_score: 92.5,
+                    confidence: 85.3,
+                    estimated_completion_time: '120 minutes',
+                    recommendation_reason: 'Perfect match for your advanced level and strong Python background'
+                },
+                {
+                    title: 'Machine Learning Fundamentals',
+                    difficulty_level: 'intermediate',
+                    match_score: 87.8,
+                    confidence: 78.9,
+                    estimated_completion_time: '180 minutes',
+                    recommendation_reason: 'Builds on your data science interests with appropriate challenge level'
+                },
+                {
+                    title: 'Data Structures and Algorithms',
+                    difficulty_level: 'advanced',
+                    match_score: 85.2,
+                    confidence: 82.1,
+                    estimated_completion_time: '240 minutes',
+                    recommendation_reason: 'Strengthens your programming foundation with complex problem-solving'
+                }
+            ];
+        }
+
+        function getDemoLearningPath(learnerId) {
+            return {
+                path_summary: 'Personalized learning path with 4 courses covering 6 skill areas',
+                estimated_duration: '6.5 hours',
+                learning_path: [
+                    {
+                        sequence: 1,
+                        title: 'Python Advanced Concepts',
+                        difficulty: 'advanced',
+                        estimated_time: '90 minutes',
+                        match_confidence: 95.2
+                    },
+                    {
+                        sequence: 2,
+                        title: 'Data Science with Pandas',
+                        difficulty: 'intermediate',
+                        estimated_time: '120 minutes',
+                        match_confidence: 88.7
+                    },
+                    {
+                        sequence: 3,
+                        title: 'Machine Learning Algorithms',
+                        difficulty: 'advanced',
+                        estimated_time: '150 minutes',
+                        match_confidence: 86.3
+                    }
+                ],
+                skill_coverage: ['python', 'data-science', 'machine-learning', 'algorithms']
+            };
+        }
+
+        // Utility functions
+        function showErrorMessage(message) {
+            const container = document.querySelector('.dashboard');
+            const errorDiv = document.createElement('div');
+            errorDiv.className = 'card';
+            errorDiv.innerHTML = `
+                <div style="text-align: center; padding: 2rem; color: var(--danger-color);">
+                    <i class="fas fa-exclamation-triangle" style="font-size: 2rem; margin-bottom: 1rem; display: block;"></i>
+                    <h3>Error</h3>
+                    <p>${message}</p>
+                    <p style="font-size: 0.875rem; margin-top: 1rem; color: var(--gray-600);">
+                        Make sure the Flask API server is running on localhost:5000
+                    </p>
+                </div>
+            `;
+            container.insertBefore(errorDiv, container.firstChild);
+        }
+
+        // Placeholder functions for button clicks
+        function startCourse(courseId) {
+            alert(`Starting course: ${courseId}`);
+        }
+
+        function viewDetails(courseId) {
+            alert(`Viewing details for: ${courseId}`);
+        }
+
+        function viewStep(courseId) {
+            alert(`Viewing step details for: ${courseId}`);
+        }
+    </script>
+</body>
+</html>

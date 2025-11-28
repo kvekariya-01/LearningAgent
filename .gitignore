@@ -1,0 +1,92 @@
+# Environment files
+.env
+.env.local
+.venv
+myenv/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+build/
+dist/
+*.egg-info/
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Virtual environments
+venv/
+env/
+myenv/
+
+# Database files
+*.db
+*.sqlite
+
+# Log files
+*.log
+
+# Temporary files
+*.tmp
+*.temp
+
+# Streamlit specific
+.streamlit/secrets.toml
+.streamlit/config.toml
+.streamlit/cache/
+
+# UV package manager (if using)
+uv.lock
+
+# Node modules (if any)
+node_modules/
+
+# Coverage reports
+htmlcov/
+.coverage
+.coverage.*
+coverage.xml
+*.cover
+
+# Pytest
+.pytest_cache/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# pyenv
+.python-version
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Python typing
+*.typed
+
+# Additional Streamlit/development files
+.streamlit/
+*.streamlit.*.log
+streamlit_logs/
+
+# Temporary development files
+*.bak
+*.backup
+*.tmp
+*.orig
+
+# Local configuration overrides
+config.local.*
+local_config.py
+dev_config.py

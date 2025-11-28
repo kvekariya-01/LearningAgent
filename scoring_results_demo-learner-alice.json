@@ -1,0 +1,432 @@
+{
+  "learner_id": "demo-learner-alice",
+  "test_results": [
+    {
+      "id": "8cf8309b-8c64-4db3-ab67-7196cae07d2d",
+      "learner_id": "demo-learner-alice",
+      "test_id": "test_001",
+      "test_type": "exam",
+      "course_id": "web-development",
+      "content_id": null,
+      "score": 67.0,
+      "max_score": 100.0,
+      "percentage": 67.0,
+      "time_taken": 15.0,
+      "attempts": 1,
+      "passed": true,
+      "completed_at": "2025-09-27T18:48:25.133858",
+      "metadata": {},
+      "_id": "8cf8309b-8c64-4db3-ab67-7196cae07d2d"
+    },
+    {
+      "id": "168e3a15-69fb-4a13-bc82-b13cee0ebe42",
+      "learner_id": "demo-learner-alice",
+      "test_id": "test_002",
+      "test_type": "test",
+      "course_id": "web-development",
+      "content_id": null,
+      "score": 76.0,
+      "max_score": 100.0,
+      "percentage": 76.0,
+      "time_taken": 85.0,
+      "attempts": 3,
+      "passed": true,
+      "completed_at": "2025-10-04T18:48:25.133858",
+      "metadata": {},
+      "_id": "168e3a15-69fb-4a13-bc82-b13cee0ebe42"
+    },
+    {
+      "id": "1d8a41e5-cf23-42b0-a789-7524f5605195",
+      "learner_id": "demo-learner-alice",
+      "test_id": "test_003",
+      "test_type": "test",
+      "course_id": "web-development",
+      "content_id": null,
+      "score": 87.0,
+      "max_score": 100.0,
+      "percentage": 87.0,
+      "time_taken": 82.0,
+      "attempts": 2,
+      "passed": true,
+      "completed_at": "2025-10-11T18:48:25.133858",
+      "metadata": {},
+      "_id": "1d8a41e5-cf23-42b0-a789-7524f5605195"
+    },
+    {
+      "id": "0c81936e-8975-483b-8a24-db1992b9ecc7",
+      "learner_id": "demo-learner-alice",
+      "test_id": "test_004",
+      "test_type": "quiz",
+      "course_id": "web-development",
+      "content_id": null,
+      "score": 93.0,
+      "max_score": 100.0,
+      "percentage": 93.0,
+      "time_taken": 83.0,
+      "attempts": 3,
+      "passed": true,
+      "completed_at": "2025-10-18T18:48:25.133858",
+      "metadata": {},
+      "_id": "0c81936e-8975-483b-8a24-db1992b9ecc7"
+    },
+    {
+      "id": "a10774cc-5da3-4316-ab8f-b8ff95251fbe",
+      "learner_id": "demo-learner-alice",
+      "test_id": "test_005",
+      "test_type": "quiz",
+      "course_id": "algorithms",
+      "content_id": null,
+      "score": 89.0,
+      "max_score": 100.0,
+      "percentage": 89.0,
+      "time_taken": 17.0,
+      "attempts": 2,
+      "passed": true,
+      "completed_at": "2025-10-25T18:48:25.133858",
+      "metadata": {},
+      "_id": "a10774cc-5da3-4316-ab8f-b8ff95251fbe"
+    },
+    {
+      "id": "117feab8-260b-42a5-9458-ae48c5de9eb3",
+      "learner_id": "demo-learner-alice",
+      "test_id": "test_006",
+      "test_type": "test",
+      "course_id": "web-development",
+      "content_id": null,
+      "score": 78.0,
+      "max_score": 100.0,
+      "percentage": 78.0,
+      "time_taken": 61.0,
+      "attempts": 3,
+      "passed": true,
+      "completed_at": "2025-11-01T18:48:25.133858",
+      "metadata": {},
+      "_id": "117feab8-260b-42a5-9458-ae48c5de9eb3"
+    },
+    {
+      "id": "27ac4502-440e-406f-892c-bd68f52fe1e9",
+      "learner_id": "demo-learner-alice",
+      "test_id": "test_007",
+      "test_type": "assignment",
+      "course_id": "data-science-intro",
+      "content_id": null,
+      "score": 86.0,
+      "max_score": 100.0,
+      "percentage": 86.0,
+      "time_taken": 20.0,
+      "attempts": 3,
+      "passed": true,
+      "completed_at": "2025-11-08T18:48:25.133858",
+      "metadata": {},
+      "_id": "27ac4502-440e-406f-892c-bd68f52fe1e9"
+    },
+    {
+      "id": "1b44cb47-f094-47ac-9f78-ac29f406b20b",
+      "learner_id": "demo-learner-alice",
+      "test_id": "test_008",
+      "test_type": "test",
+      "course_id": "web-development",
+      "content_id": null,
+      "score": 95.0,
+      "max_score": 100.0,
+      "percentage": 95.0,
+      "time_taken": 43.0,
+      "attempts": 1,
+      "passed": true,
+      "completed_at": "2025-11-15T18:48:25.133858",
+      "metadata": {},
+      "_id": "1b44cb47-f094-47ac-9f78-ac29f406b20b"
+    }
+  ],
+  "score_summary": {
+    "learner_id": "demo-learner-alice",
+    "total_tests": 8,
+    "average_score": 83.88,
+    "latest_score": 95.0,
+    "score_trend": "improving",
+    "strongest_subject": "algorithms",
+    "weakest_subject": "web-development",
+    "recommendation_level": "advanced",
+    "confidence_score": 88.7,
+    "recent_performance": [
+      {
+        "id": "1b44cb47-f094-47ac-9f78-ac29f406b20b",
+        "learner_id": "demo-learner-alice",
+        "test_id": "test_008",
+        "test_type": "test",
+        "course_id": "web-development",
+        "content_id": null,
+        "score": 95.0,
+        "max_score": 100.0,
+        "percentage": 95.0,
+        "time_taken": 43.0,
+        "attempts": 1,
+        "passed": true,
+        "completed_at": "2025-11-15 18:48:25.133858",
+        "metadata": {}
+      },
+      {
+        "id": "27ac4502-440e-406f-892c-bd68f52fe1e9",
+        "learner_id": "demo-learner-alice",
+        "test_id": "test_007",
+        "test_type": "assignment",
+        "course_id": "data-science-intro",
+        "content_id": null,
+        "score": 86.0,
+        "max_score": 100.0,
+        "percentage": 86.0,
+        "time_taken": 20.0,
+        "attempts": 3,
+        "passed": true,
+        "completed_at": "2025-11-08 18:48:25.133858",
+        "metadata": {}
+      },
+      {
+        "id": "117feab8-260b-42a5-9458-ae48c5de9eb3",
+        "learner_id": "demo-learner-alice",
+        "test_id": "test_006",
+        "test_type": "test",
+        "course_id": "web-development",
+        "content_id": null,
+        "score": 78.0,
+        "max_score": 100.0,
+        "percentage": 78.0,
+        "time_taken": 61.0,
+        "attempts": 3,
+        "passed": true,
+        "completed_at": "2025-11-01 18:48:25.133858",
+        "metadata": {}
+      },
+      {
+        "id": "a10774cc-5da3-4316-ab8f-b8ff95251fbe",
+        "learner_id": "demo-learner-alice",
+        "test_id": "test_005",
+        "test_type": "quiz",
+        "course_id": "algorithms",
+        "content_id": null,
+        "score": 89.0,
+        "max_score": 100.0,
+        "percentage": 89.0,
+        "time_taken": 17.0,
+        "attempts": 2,
+        "passed": true,
+        "completed_at": "2025-10-25 18:48:25.133858",
+        "metadata": {}
+      },
+      {
+        "id": "0c81936e-8975-483b-8a24-db1992b9ecc7",
+        "learner_id": "demo-learner-alice",
+        "test_id": "test_004",
+        "test_type": "quiz",
+        "course_id": "web-development",
+        "content_id": null,
+        "score": 93.0,
+        "max_score": 100.0,
+        "percentage": 93.0,
+        "time_taken": 83.0,
+        "attempts": 3,
+        "passed": true,
+        "completed_at": "2025-10-18 18:48:25.133858",
+        "metadata": {}
+      }
+    ]
+  },
+  "recommendations": [
+    {
+      "rank": 1,
+      "course": {
+        "id": "algorithm-101",
+        "title": "Data Structures and Algorithms",
+        "description": "Learn fundamental data structures and algorithms for technical interviews.",
+        "difficulty_level": "advanced",
+        "content_type": "video",
+        "tags": [
+          "algorithms",
+          "data-structures",
+          "programming"
+        ],
+        "estimated_duration": 400,
+        "course_id": "algorithms"
+      },
+      "match_score": 105,
+      "confidence": 93.14,
+      "reason": "Perfect difficulty match for advanced level learners; Strong performance alignment; Supports current learning momentum; Builds on your strongest subject area",
+      "score_breakdown": {
+        "base_score": 0,
+        "difficulty_match": 45,
+        "performance_alignment": 30,
+        "progression_score": 20,
+        "subject_strength_bonus": 10,
+        "recommendation_confidence": 93.135
+      }
+    },
+    {
+      "rank": 2,
+      "course": {
+        "id": "python-201",
+        "title": "Advanced Python Programming",
+        "description": "Master advanced Python concepts including OOP, decorators, generators, and best practices.",
+        "difficulty_level": "intermediate",
+        "content_type": "video",
+        "tags": [
+          "python",
+          "advanced-programming",
+          "oop"
+        ],
+        "estimated_duration": 180,
+        "course_id": "advanced-programming"
+      },
+      "match_score": 90,
+      "confidence": 79.83,
+      "reason": "Perfect difficulty match for advanced level learners; Strong performance alignment; Supports current learning momentum",
+      "score_breakdown": {
+        "base_score": 0,
+        "difficulty_match": 40,
+        "performance_alignment": 30,
+        "progression_score": 20,
+        "subject_strength_bonus": 0,
+        "recommendation_confidence": 79.83
+      }
+    },
+    {
+      "rank": 3,
+      "course": {
+        "id": "data-science-201",
+        "title": "Machine Learning with Python",
+        "description": "Build machine learning models using scikit-learn, pandas, and numpy.",
+        "difficulty_level": "intermediate",
+        "content_type": "video",
+        "tags": [
+          "machine-learning",
+          "python",
+          "scikit-learn"
+        ],
+        "estimated_duration": 240,
+        "course_id": "machine-learning"
+      },
+      "match_score": 90,
+      "confidence": 79.83,
+      "reason": "Perfect difficulty match for advanced level learners; Strong performance alignment; Supports current learning momentum",
+      "score_breakdown": {
+        "base_score": 0,
+        "difficulty_match": 40,
+        "performance_alignment": 30,
+        "progression_score": 20,
+        "subject_strength_bonus": 0,
+        "recommendation_confidence": 79.83
+      }
+    },
+    {
+      "rank": 4,
+      "course": {
+        "id": "web-dev-201",
+        "title": "JavaScript and React Development",
+        "description": "Master modern JavaScript and React for building interactive web applications.",
+        "difficulty_level": "intermediate",
+        "content_type": "video",
+        "tags": [
+          "javascript",
+          "react",
+          "frontend"
+        ],
+        "estimated_duration": 300,
+        "course_id": "javascript-development"
+      },
+      "match_score": 90,
+      "confidence": 79.83,
+      "reason": "Perfect difficulty match for advanced level learners; Strong performance alignment; Supports current learning momentum",
+      "score_breakdown": {
+        "base_score": 0,
+        "difficulty_match": 40,
+        "performance_alignment": 30,
+        "progression_score": 20,
+        "subject_strength_bonus": 0,
+        "recommendation_confidence": 79.83
+      }
+    },
+    {
+      "rank": 5,
+      "course": {
+        "id": "database-101",
+        "title": "Database Design and SQL",
+        "description": "Learn database design principles and SQL for managing relational databases.",
+        "difficulty_level": "intermediate",
+        "content_type": "article",
+        "tags": [
+          "sql",
+          "database",
+          "data-management"
+        ],
+        "estimated_duration": 160,
+        "course_id": "database-fundamentals"
+      },
+      "match_score": 90,
+      "confidence": 79.83,
+      "reason": "Perfect difficulty match for advanced level learners; Strong performance alignment; Supports current learning momentum",
+      "score_breakdown": {
+        "base_score": 0,
+        "difficulty_match": 40,
+        "performance_alignment": 30,
+        "progression_score": 20,
+        "subject_strength_bonus": 0,
+        "recommendation_confidence": 79.83
+      }
+    }
+  ],
+  "learning_path": {
+    "learning_path": [
+      {
+        "sequence": 1,
+        "course_id": "algorithm-101",
+        "title": "Data Structures and Algorithms",
+        "difficulty": "advanced",
+        "duration_minutes": 400,
+        "match_confidence": 93.14
+      },
+      {
+        "sequence": 2,
+        "course_id": "python-201",
+        "title": "Advanced Python Programming",
+        "difficulty": "intermediate",
+        "duration_minutes": 180,
+        "match_confidence": 79.83
+      },
+      {
+        "sequence": 3,
+        "course_id": "data-science-201",
+        "title": "Machine Learning with Python",
+        "difficulty": "intermediate",
+        "duration_minutes": 240,
+        "match_confidence": 79.83
+      },
+      {
+        "sequence": 4,
+        "course_id": "web-dev-201",
+        "title": "JavaScript and React Development",
+        "difficulty": "intermediate",
+        "duration_minutes": 300,
+        "match_confidence": 79.83
+      },
+      {
+        "sequence": 5,
+        "course_id": "database-101",
+        "title": "Database Design and SQL",
+        "difficulty": "intermediate",
+        "duration_minutes": 160,
+        "match_confidence": 79.83
+      },
+      {
+        "sequence": 6,
+        "course_id": "python-101",
+        "title": "Python Programming Fundamentals",
+        "difficulty": "beginner",
+        "duration_minutes": 120,
+        "match_confidence": 53.22
+      }
+    ],
+    "total_duration_hours": 23.333333333333332,
+    "starting_level": "advanced",
+    "expected_outcome": "Advanced proficiency with expertise in complex problem-solving"
+  },
+  "generated_at": "2025-11-26T18:48:25.140258"
+}

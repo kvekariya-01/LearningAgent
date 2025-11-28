@@ -1,0 +1,258 @@
+{
+	"info": {
+		"_postman_id": "learning-agent-fixed-mongodb-atlas",
+		"name": "Learning Agent API - MongoDB Atlas (FIXED)",
+		"description": "Corrected API collection for Learning Agent with proper MongoDB Atlas integration",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "🏠 Basic Operations",
+			"item": [
+				{
+					"name": "Home Page",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "5000",
+							"path": []
+						}
+					}
+				},
+				{
+					"name": "Get All Learners",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/learners",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "5000",
+							"path": ["api", "learners"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "👥 Learner Management (FIXED)",
+			"item": [
+				{
+					"name": "Register New Learner",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"John Doe\",\n  \"age\": 25,\n  \"gender\": \"male\",\n  \"learning_style\": \"visual\",\n  \"preferences\": [\"videos\", \"quizzes\", \"discussions\"]\n}"
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/learner/register",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "5000",
+							"path": ["api", "learner", "register"]
+						}
+					}
+				},
+				{
+					"name": "Get Learner by ID (FIXED)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/learner/{{learner_id}}",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "5000",
+							"path": ["api", "learner", "{{learner_id}}"]
+						}
+					}
+				},
+				{
+					"name": "Update Learner (FIXED)",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"John Smith\",\n  \"age\": 26,\n  \"learning_style\": \"auditory\",\n  \"preferences\": [\"videos\", \"podcasts\"]\n}"
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/learner/{{learner_id}}",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "5000",
+							"path": ["api", "learner", "{{learner_id}}"]
+						}
+					}
+				},
+				{
+					"name": "Delete Learner (FIXED)",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/learner/{{learner_id}}",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "5000",
+							"path": ["api", "learner", "{{learner_id}}"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "📊 Activity & Progress (FIXED)",
+			"item": [
+				{
+					"name": "Log Activity (FIXED)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"activity_type\": \"module_completed\",\n  \"duration\": 45.5,\n  \"score\": 85\n}"
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/learner/{{learner_id}}/activity",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "5000",
+							"path": ["api", "learner", "{{learner_id}}", "activity"]
+						}
+					}
+				},
+				{
+					"name": "Get Activities",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/learner/{{learner_id}}/activities",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "5000",
+							"path": ["api", "learner", "{{learner_id}}", "activities"]
+						}
+					}
+				},
+				{
+					"name": "Get Progress Summary",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/learner/{{learner_id}}/progress",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "5000",
+							"path": ["api", "learner", "{{learner_id}}", "progress"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "🎯 Analytics & AI (FIXED)",
+			"item": [
+				{
+					"name": "Learner Analytics",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/analytics/learner/{{learner_id}}",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "5000",
+							"path": ["api", "analytics", "learner", "{{learner_id}}"]
+						}
+					}
+				},
+				{
+					"name": "Cohort Analytics",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/analytics/cohort?group_by=learning_style",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "5000",
+							"path": ["api", "analytics", "cohort"],
+							"query": [
+								{
+									"key": "group_by",
+									"value": "learning_style"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "System Summary",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/analytics/summary",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "5000",
+							"path": ["api", "analytics", "summary"]
+						}
+					}
+				},
+				{
+					"name": "Get Recommendations",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/learner/{{learner_id}}/recommendations",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "5000",
+							"path": ["api", "learner", "{{learner_id}}", "recommendations"]
+						}
+					}
+				}
+			]
+		}
+	],
+	"event": [],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:5000",
+			"type": "string"
+		},
+		{
+			"key": "learner_id",
+			"value": "",
+			"type": "string"
+		}
+	]
+}

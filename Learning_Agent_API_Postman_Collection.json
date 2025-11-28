@@ -1,0 +1,396 @@
+{
+	"info": {
+		"_postman_id": "learning-agent-mongodb-atlas",
+		"name": "Learning Agent API - MongoDB Atlas",
+		"description": "Complete API collection for Learning Agent application with MongoDB Atlas integration",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "🏠 Home & Health Check",
+			"item": [
+				{
+					"name": "Home Page",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "5000",
+							"path": []
+						},
+						"description": "Welcome message and API health check"
+					}
+				}
+			]
+		},
+		{
+			"name": "👥 Learner Management",
+			"item": [
+				{
+					"name": "Register New Learner",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"John Doe\",\n  \"age\": 25,\n  \"gender\": \"male\",\n  \"learning_style\": \"visual\",\n  \"preferences\": [\"videos\", \"quizzes\", \"discussions\"]\n}"
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/learner/register",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "5000",
+							"path": ["api", "learner", "register"]
+						},
+						"description": "Register a new learner in the system"
+					}
+				},
+				{
+					"name": "Get All Learners",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/learners",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "5000",
+							"path": ["api", "learners"]
+						},
+						"description": "Retrieve all learners from MongoDB Atlas"
+					}
+				},
+				{
+					"name": "Get Learner by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/learner/{{learner_id}}",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "5000",
+							"path": ["api", "learner", "{{learner_id}}"]
+						},
+						"description": "Get specific learner details from MongoDB Atlas"
+					}
+				},
+				{
+					"name": "Update Learner",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"John Smith\",\n  \"age\": 26,\n  \"learning_style\": \"auditory\",\n  \"preferences\": [\"videos\", \"podcasts\", \"discussions\"]\n}"
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/learner/{{learner_id}}",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "5000",
+							"path": ["api", "learner", "{{learner_id}}"]
+						},
+						"description": "Update learner information in MongoDB Atlas"
+					}
+				},
+				{
+					"name": "Delete Learner",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/learner/{{learner_id}}",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "5000",
+							"path": ["api", "learner", "{{learner_id}}"]
+						},
+						"description": "Delete learner from MongoDB Atlas"
+					}
+				}
+			]
+		},
+		{
+			"name": "📊 Activity & Progress Tracking",
+			"item": [
+				{
+					"name": "Log Single Activity",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"activity_type\": \"module_completed\",\n  \"duration\": 45.5,\n  \"score\": 85\n}"
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/learner/{{learner_id}}/activity",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "5000",
+							"path": ["api", "learner", "{{learner_id}}", "activity"]
+						},
+						"description": "Log a learning activity and trigger adaptive adjustments"
+					}
+				},
+				{
+					"name": "Log Multiple Activities",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\n  {\n    \"activity_type\": \"viewed\",\n    \"duration\": 30,\n    \"score\": null\n  },\n  {\n    \"activity_type\": \"quiz_attempted\",\n    \"duration\": 20,\n    \"score\": 78\n  },\n  {\n    \"activity_type\": \"completed\",\n    \"duration\": 15,\n    \"score\": 92\n  }\n]"
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/learner/{{learner_id}}/activity",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "5000",
+							"path": ["api", "learner", "{{learner_id}}", "activity"]
+						},
+						"description": "Log multiple activities at once"
+					}
+				},
+				{
+					"name": "Get Learner Activities",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/learner/{{learner_id}}/activities",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "5000",
+							"path": ["api", "learner", "{{learner_id}}", "activities"]
+						},
+						"description": "Get all activities for a learner from MongoDB Atlas"
+					}
+				},
+				{
+					"name": "Get Progress Summary",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/learner/{{learner_id}}/progress",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "5000",
+							"path": ["api", "learner", "{{learner_id}}", "progress"]
+						},
+						"description": "Get comprehensive progress summary with milestones"
+					}
+				},
+				{
+					"name": "Log Progress",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"milestone\": \"course_completed\",\n  \"engagement_score\": 85.5,\n  \"learning_velocity\": 2.3\n}"
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/learner/{{learner_id}}/progress/log",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "5000",
+							"path": ["api", "learner", "{{learner_id}}", "progress", "log"]
+						},
+						"description": "Log a learning milestone in MongoDB Atlas"
+					}
+				}
+			]
+		},
+		{
+			"name": "🤖 AI & Recommendations",
+			"item": [
+				{
+					"name": "Get Recommendations",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/learner/{{learner_id}}/recommendations",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "5000",
+							"path": ["api", "learner", "{{learner_id}}", "recommendations"]
+						},
+						"description": "Get AI-powered content recommendations"
+					}
+				},
+				{
+					"name": "Predict Completion Time",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"avg_score\": 82,\n  \"time_spent\": 120,\n  \"difficulty\": 2\n}"
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/predict/completion-time",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "5000",
+							"path": ["api", "predict", "completion-time"]
+						},
+						"description": "Predict course completion time using ML"
+					}
+				}
+			]
+		},
+		{
+			"name": "🎯 Adaptive Learning",
+			"item": [
+				{
+					"name": "Adjust Difficulty",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"recent_score\": 75\n}"
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/learner/{{learner_id}}/adjust-difficulty",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "5000",
+							"path": ["api", "learner", "{{learner_id}}", "adjust-difficulty"]
+						},
+						"description": "Adjust learning difficulty based on recent performance"
+					}
+				},
+				{
+					"name": "Get Interventions",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/learner/{{learner_id}}/interventions",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "5000",
+							"path": ["api", "learner", "{{learner_id}}", "interventions"]
+						},
+						"description": "Get adaptive interventions from MongoDB Atlas"
+					}
+				}
+			]
+		},
+		{
+			"name": "📈 Analytics & Reporting",
+			"item": [
+				{
+					"name": "Learner Analytics",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/analytics/learner/{{learner_id}}",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "5000",
+							"path": ["api", "analytics", "learner", "{{learner_id}}"]
+						},
+						"description": "Get comprehensive analytics for individual learner"
+					}
+				},
+				{
+					"name": "Cohort Comparison",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/analytics/cohort?group_by=learning_style&learner_id={{learner_id}}",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "5000",
+							"path": ["api", "analytics", "cohort"],
+							"query": [
+								{
+									"key": "group_by",
+									"value": "learning_style"
+								},
+								{
+									"key": "learner_id",
+									"value": "{{learner_id}}"
+								}
+							]
+						},
+						"description": "Compare learner performance against cohort"
+					}
+				},
+				{
+					"name": "System Analytics Summary",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/analytics/summary",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "5000",
+							"path": ["api", "analytics", "summary"]
+						},
+						"description": "Get overall system analytics and metrics"
+					}
+				}
+			]
+		}
+	],
+	"event": [],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:5000",
+			"type": "string"
+		},
+		{
+			"key": "learner_id",
+			"value": "",
+			"type": "string"
+		}
+	]
+}
