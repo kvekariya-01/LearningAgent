@@ -1549,14 +1549,14 @@ elif page == "📈 View Engagements":
                 # Search functionality
                 search_learner = st.text_input("🔍 Search by learner ID:", placeholder="Enter learner ID to filter...")
                 if search_learner:
-                    engagements = [e for e in engagements if search_learner.lower() in e.get('learner_id', '').lower()]
+                    engagements = [e for e in engagements if search_learner.lower() in e.learner_id.lower()]
                     st.write(f"📊 **Filtered results**: {len(engagements)} engagement records found")
                 
                 # Filter by engagement type
-                engagement_types = [""] + list(set([e.get('engagement_type', '') for e in engagements if e.get('engagement_type')]))
+                engagement_types = [""] + list(set([e.engagement_type for e in engagements if e.engagement_type]))
                 selected_type = st.selectbox("📋 Filter by engagement type:", engagement_types)
                 if selected_type:
-                    engagements = [e for e in engagements if e.get('engagement_type') == selected_type]
+                    engagements = [e for e in engagements if e.engagement_type == selected_type]
                     st.write(f"🎯 **Filtered by type**: {len(engagements)} engagement records found")
                 
                 # Display engagements
