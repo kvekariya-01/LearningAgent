@@ -3,8 +3,6 @@ import streamlit as st
 import json
 import pandas as pd
 from datetime import datetime
-from typing import Optional, Dict, List, Any
-
 # Load .env only for local development (optional)
 try:
     from dotenv import load_dotenv
@@ -98,8 +96,47 @@ if MODELS_LOADED:
 st.set_page_config(
     page_title="Learning Agent",
     page_icon="[EDU]",
-    layout="wide"
+    layout="wide",
+    initial_sidebar_state="collapsed"
 )
+
+# Custom CSS for hover-based navigation
+st.markdown("""
+<style>
+.navigation-sidebar {
+    position: fixed;
+    left: -250px;
+    top: 0;
+    width: 250px;
+    height: 100%;
+    background-color: #f0f2f6;
+    transition: left 0.3s ease;
+    z-index: 1000;
+    padding: 1rem;
+    box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+    overflow-y: auto;
+}
+
+.navigation-trigger {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 20px;
+    height: 100%;
+    background-color: transparent;
+    z-index: 999;
+    cursor: pointer;
+}
+
+.navigation-trigger:hover + .navigation-sidebar, .navigation-sidebar:hover {
+    left: 0;
+}
+</style>
+""", unsafe_allow_html=True)
+
+# Initialize session state for current page
+if 'current_page' not in st.session_state:
+    st.session_state.current_page = "👤 Register Learner"
 
 def validate_learner_data(data):
     """Validate learner registration data"""
@@ -936,18 +973,33 @@ if DB_CONNECTED and MODELS_LOADED:
 else:
     st.error("[FAIL] Some components failed to load. Check configuration.")
 
-# Sidebar for navigation
-st.sidebar.title("🧭 Navigation Menu")
-page = st.sidebar.radio("📋 Select a page", [
+# Top Navigation Bar
+pages = [
     "👤 Register Learner", "👥 View Learners", "✏️ Update Learner",
     "📚 Register Content", "📖 View Content",
-    "📊 Register Engagement", "📈 View Engagements", 
+    "📊 Register Engagement", "📈 View Engagements",
     "🎯 Register Intervention", "🎪 View Interventions",
     "📝 Register Progress", "📋 View Progress",
-    "🕒 Log Activity", "📱 View Activities", 
+    "🕒 Log Activity", "📱 View Activities",
     "📊 Score Analytics", "🎯 Score-Based Recommendations", "💡 Personalized Recommendations",
     "🛤️ Learning Paths", "📝 Submit Test Results"
-])
+]
+
+# Hover-based Navigation Sidebar
+st.markdown('<div class="navigation-trigger"></div>', unsafe_allow_html=True)
+st.markdown('<div class="navigation-sidebar">', unsafe_allow_html=True)
+st.markdown("### 🧭 Navigation")
+page = st.selectbox(
+    "Select a page:",
+    pages,
+    index=pages.index(st.session_state.current_page) if st.session_state.current_page in pages else 0,
+    key="navigation_selectbox"
+)
+st.markdown('</div>', unsafe_allow_html=True)
+
+# Update current page if changed
+if page != st.session_state.current_page:
+    st.session_state.current_page = page
 
 if page == "👤 Register Learner":
     st.header("👤 Register New Learner")
@@ -3040,6 +3092,6 @@ st.markdown("---")
 st.markdown(
     "<div style='text-align: center; color: gray;'>"
     "🎓 Learning Agent - Enhanced Scoring & Recommendations | Powered by Advanced Analytics 🤖"
-    "</div>", 
+    "</div>",
     unsafe_allow_html=True
 )
