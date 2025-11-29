@@ -128,7 +128,6 @@ import urllib.request
 import urllib.parse
 import urllib.error
 import requests
-import httplib2
 import ssl
 
 # Store original functions for potential restoration
@@ -158,10 +157,6 @@ def activate_network_blocker():
         requests.post = lambda *args, **kwargs: _blocked_response("POST requests blocked")
         requests.put = lambda *args, **kwargs: _blocked_response("PUT requests blocked")
         requests.delete = lambda *args, **kwargs: _blocked_response("DELETE requests blocked")
-    
-    # Block httplib2
-    if hasattr(httplib2, 'Http'):
-        httplib2.Http.request = lambda *args, **kwargs: _blocked_response("HTTP requests blocked")
     
     print("Network protection active - External API calls blocked")
 

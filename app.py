@@ -3,14 +3,7 @@ import streamlit as st
 import json
 import pandas as pd
 from datetime import datetime
-# Network Blocker - Prevents Minimax API errors
-try:
-    import network_blocker
-    network_blocker.activate_network_blocker()
-    print("Network protection active")
-except ImportError:
-    print("Network blocker not available")
-
+from typing import Optional, Dict, List, Any
 
 # Load .env only for local development (optional)
 try:

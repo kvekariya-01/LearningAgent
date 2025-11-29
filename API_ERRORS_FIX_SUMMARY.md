@@ -139,7 +139,7 @@ except ConnectionError as e:
 
 ### network_blocker.py (New file):
 - Complete network blocking implementation
-- Blocks socket, urllib, requests, and httplib2 calls
+- Blocks socket, urllib, and requests calls
 - Provides fallback response objects
 - Auto-activates when imported
 
