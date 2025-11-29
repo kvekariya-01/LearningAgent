@@ -8,6 +8,8 @@ import pymongo
 from pymongo import MongoClient
 from pymongo.errors import ConnectionFailure, ServerSelectionTimeoutError
 
+import os
+
 # Try to load .env file if python-dotenv is available
 try:
     from dotenv import load_dotenv
@@ -15,15 +17,17 @@ try:
 except ImportError:
     # If python-dotenv is not available, try to load .env manually
     try:
-        env_path = os.path.join(os.path.dirname(_file_), '..', '.env')
+        env_path = os.path.join(os.path.dirname(__file__), '..', '.env')
         if os.path.exists(env_path):
             with open(env_path, 'r') as f:
                 for line in f:
                     if '=' in line and not line.strip().startswith('#'):
                         key, value = line.strip().split('=', 1)
                         os.environ[key] = value
-    except:
+    except Exception as e:
+        print("Error loading .env manually:", e)
         pass  # Continue without .env file
+
 
 # --------------------------
 # [TOOLS] Environment Variables

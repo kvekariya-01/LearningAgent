@@ -200,11 +200,20 @@ if __name__ == "__main__":
         network_import = '''# Network Blocker - Prevents Minimax API errors
 try:
     import network_blocker
-    network_blocker.activate_network_blocker()
-    print("🛡️ Network protection active")
+
+    # Check function exists before calling it
+    if hasattr(network_blocker, "activate_network_blocker"):
+        network_blocker.activate_network_blocker()
+        print("🛡️ Network protection active")
+    else:
+        print("⚠️ Network blocker imported but no activate function found")
+
 except ImportError:
     print("⚠️ Network blocker not available")
-'''
+
+except Exception as e:
+    print(f"⚠️ Network blocker error: {e}")
+
         
         # Insert after existing imports (after the first few lines)
         lines = app_content.split('\n')

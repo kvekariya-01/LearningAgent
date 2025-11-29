@@ -542,7 +542,7 @@ except Exception as e:
                 # Insert after the network blocker import but before other imports
                 if "# Network Blocker - Prevents Minimax API errors" in content:
                     content = content.replace(
-                        "# Network Blocker - Prevents Minimax API errors\ntry:\n    import network_blocker\n    network_blocker.activate_network_blocker()\n    print(\"Network protection active\")\nexcept ImportError:\n    print(\"Network blocker not available\")",
+                        "# Network Blocker - Prevents Minimax API errors\ntry:\n    import network_blocker\n    network_blocker.activate_network_blocker()\n    print(\"Network protection active\")\nexcept ImportError:\n     print("Network blocker not available")''',
                         startup_protection + "\n# Legacy network blocker (superseded by ultimate blocker)"
                     )
                 else:

@@ -11,6 +11,7 @@ try:
 except ImportError:
     print("Network blocker not available")
 
+
 # Load .env only for local development (optional)
 try:
     from dotenv import load_dotenv
